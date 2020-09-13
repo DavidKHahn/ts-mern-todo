@@ -1,5 +1,6 @@
-# ts-react-mdb-todo
+# ts-mern-todo
 
+## SERVER SIDE 
 1. `yarn add typescript -g`
 2. `yarn add express cors mongoose`
 3. `yarn add -D @types/node @types/express @types/mongoose @types/cors`
