@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios"
 
-const baseUrl: string = "http://localhost:4000"
+const baseUrl: string = "http://localhost:3000"
 
 export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
     try {
