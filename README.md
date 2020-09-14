@@ -306,8 +306,160 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
             throw new Error(error)
           }
         }
+        
+6. Create the components
+**Add Todo Form**
+- components/AddTodo.tsx
+
+        import React, { useState } from 'react'
+
+        type Props = { 
+          saveTodo: (e: React.FormEvent, formData: ITodo | any) => void 
+        }
+
+        const AddTodo: React.FC<Props> = ({ saveTodo }) => {
+          const [formData, setFormData] = useState<ITodo | {}>()
+
+          const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
+            setFormData({
+              ...formData,
+              [e.currentTarget.id]: e.currentTarget.value,
+            })
+          }
+
+          return (
+            <form className='Form' onSubmit={(e) => saveTodo(e, formData)}>
+              <div>
+                <div>
+                  <label htmlFor='name'>Name</label>
+                  <input onChange={handleForm} type='text' id='name' />
+                </div>
+                <div>
+                  <label htmlFor='description'>Description</label>
+                  <input onChange={handleForm} type='text' id='description' />
+                </div>
+              </div>
+              <button disabled={formData === undefined ? true: false} >Add Todo</button>
+            </form>
+          )
+        }
+
+        export default AddTodo
 
 
+**Display a Todo**
+- components/TodoItem.tsx
+
+        import React from "react"
+
+        type Props = TodoProps & {
+          updateTodo: (todo: ITodo) => void
+          deleteTodo: (_id: string) => void
+        }
+
+        const Todo: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
+          const checkTodo: string = todo.status ? `line-through` : ""
+          return (
+            <div className="Card">
+              <div className="Card--text">
+                <h1 className={checkTodo}>{todo.name}</h1>
+                <span className={checkTodo}>{todo.description}</span>
+              </div>
+              <div className="Card--button">
+                <button
+                  onClick={() => updateTodo(todo)}
+                  className={todo.status ? `hide-button` : "Card--button__done"}
+                >
+                  Complete
+                </button>
+                <button
+                  onClick={() => deleteTodo(todo._id)}
+                  className="Card--button__delete"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )
+        }
+
+        export default Todo
+        
+7. Fetch and Display data
+- App.tsx
+
+        import React, { useEffect, useState } from 'react'
+        import TodoItem from './components/TodoItem'
+        import AddTodo from './components/AddTodo'
+        import { getTodos, addTodo, updateTodo, deleteTodo } from './API'
+
+        const App: React.FC = () => {
+          const [todos, setTodos] = useState<ITodo[]>([])
+
+          useEffect(() => {
+            fetchTodos()
+          }, [])
+
+          const fetchTodos = (): void => {
+            getTodos()
+            .then(({ data: { todos } }: ITodo[] | any) => setTodos(todos))
+            .catch((err: Error) => console.log(err))
+          }
+
+
+        const handleSaveTodo = (e: React.FormEvent, formData: ITodo): void => {
+          e.preventDefault()
+          addTodo(formData)
+            .then(({ status, data }) => {
+              if (status !== 201) {
+                throw new Error("Error! Todo not saved")
+              }
+              setTodos(data.todos)
+            })
+            .catch(err => console.log(err))
+        }
+
+
+        const handleUpdateTodo = (todo: ITodo): void => {
+          updateTodo(todo)
+            .then(({ status, data }) => {
+              if (status !== 200) {
+                throw new Error("Error! Todo not updated")
+              }
+              setTodos(data.todos)
+            })
+            .catch(err => console.log(err))
+        }
+
+        const handleDeleteTodo = (_id: string): void => {
+          deleteTodo(_id)
+            .then(({ status, data }) => {
+              if (status !== 200) {
+                throw new Error("Error! Todo not deleted")
+              }
+              setTodos(data.todos)
+            })
+            .catch(err => console.log(err))
+        }
+
+
+          return (
+            <main className='App'>
+              <h1>My Todos</h1>
+              <AddTodo saveTodo={handleSaveTodo} />
+              {todos.map((todo: ITodo) => (
+                <TodoItem
+                  key={todo._id}
+                  updateTodo={handleUpdateTodo}
+                  deleteTodo={handleDeleteTodo}
+                  todo={todo}
+                />
+              ))}
+            </main>
+          )
+        }
+
+        export default App
 
 
 
