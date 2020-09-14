@@ -184,6 +184,30 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
           .catch(error => {
             throw error
           })
+          
+## CLIENT SIDE
+1. `npx create-react-app my-app --template typescript`
+2. `yarn add axios`
+
+3. Make sure folder structure looks like this:
+        ├── node_modules
+        ├── public
+        ├── src
+        |  ├── API.ts
+        |  ├── App.test.tsx
+        |  ├── App.tsx
+        |  ├── components
+        |  |  ├── AddTodo.tsx
+        |  |  └── TodoItem.tsx
+        |  ├── index.css
+        |  ├── index.tsx
+        |  ├── react-app-env.d.ts
+        |  ├── setupTests.ts
+        |  └── type.d.ts
+        ├── tsconfig.json
+        ├── package.json
+        └── yarn.lock
+
 
 
 
