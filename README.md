@@ -234,7 +234,9 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
 
 5. Fetch data from the API
 - src/API.ts
-
+        
+     **Get:**
+        
         import axios, { AxiosResponse } from "axios"
 
         const baseUrl: string = "http://localhost:4000"
@@ -249,7 +251,9 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
             throw new Error(error)
           }
         }
- 
+        
+     **Create/Add (POST):**
+        
          export const addTodo = async (
           formData: ITodo
         ): Promise<AxiosResponse<ApiDataType>> => {
@@ -269,6 +273,8 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
           }
         }
         
+     **Update (PUT):**
+        
         export const updateTodo = async (
           todo: ITodo
         ): Promise<AxiosResponse<ApiDataType>> => {
@@ -285,7 +291,9 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
             throw new Error(error)
           }
         }
-
+        
+     **Delete:**
+        
         export const deleteTodo = async (
           _id: string
         ): Promise<AxiosResponse<ApiDataType>> => {
