@@ -190,6 +190,7 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
 2. `yarn add axios`
 
 3. Make sure folder structure looks like this:
+
         ├── node_modules
         ├── public
         ├── src
