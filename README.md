@@ -209,6 +209,48 @@ You can get the credentials by creating a new cluster on MongoDB Atlas.
         ├── package.json
         └── yarn.lock
 
+4. Create a Todo Type
+- src/type.d.ts
+
+        interface ITodo {
+          _id: string
+          name: string
+          description: string
+          status: boolean
+          createdAt?: string
+          updatedAt?: string
+        }
+
+        interface TodoProps {
+          todo: ITodo
+        }
+
+        type ApiDataType = {
+          message: string
+          status: string
+          todos: ITodo[]
+          todo?: ITodo
+        }
+
+5. Fetch data from the API
+- src/API.ts
+
+        import axios, { AxiosResponse } from "axios"
+
+        const baseUrl: string = "http://localhost:4000"
+
+        export const getTodos = async (): Promise<AxiosResponse<ApiDataType>> => {
+          try {
+            const todos: AxiosResponse<ApiDataType> = await axios.get(
+              baseUrl + "/todos"
+            )
+            return todos
+          } catch (error) {
+            throw new Error(error)
+          }
+        }
+
+
 
 
 
