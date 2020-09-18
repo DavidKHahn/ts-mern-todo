@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { Express } from 'express'
 import mongoose from 'mongoose'
@@ -7,6 +8,7 @@ const app: Express = express()
 
 const PORT: string | number = process.env.PORT || 4000
 
+app.use(bodyParser.json())
 app.use(cors())
 app.use(todoRoutes)
 

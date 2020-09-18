@@ -1,7 +1,0 @@
-{
-  "env": {
-    "MONGO_USER": "dhahn",
-    "MONGO_PASSWORD": "dhahn",
-    "MONGO_DB": "TYPESCRIPT-MERN-TODO"
-  }
-}
